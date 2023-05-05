@@ -1,0 +1,22 @@
+.dropdownContainer {
+    position: relative;
+    width: fit-content;
+}
+
+.dropdownButton {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+}
+
+.dropdownButton img {
+    height: 1.2rem;
+}
+
+.dropdownMenu {
+    border: 1px solid black;
+    position: absolute;
+    padding: 1rem;
+    width: max-content;
+    background-color: white;
+}
