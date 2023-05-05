@@ -1,6 +1,6 @@
 import React from "react";
 import { forwardRef } from "react";
-import styles from "./ProductCard.module.css";
+import styles from "./ProductCard.module.scss";
 import star from "../../assets/svg/solid-star.svg";
 
 interface ProductCardProps {
@@ -21,8 +21,6 @@ const ProductCard = forwardRef<HTMLInputElement, ProductCardProps>(
         <div ref={ref} className={styles.productImageContainer}>
           <img
             src={`${imgUrl}?w=720&h=900&q=50&fm=webp`}
-            loading="eager"
-            decoding="async"
           />
         </div>
         <div className={styles.bottomSectionWrapper}>

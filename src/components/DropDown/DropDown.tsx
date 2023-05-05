@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./DropDown.module.css";
+import styles from "./DropDown.module.scss";
 import downArrow from "../../assets/svg/down-chevron.svg";
 import upArrow from "../../assets/svg/up-chevron.svg";
 
