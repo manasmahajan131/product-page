@@ -14,3 +14,19 @@
     height: 100%;
     object-fit: cover;
 }
+
+.nameAndPriceSection {
+    display: flex;
+    justify-content: space-between;
+    text-align: start;
+    font-size: 1em;
+}
+
+.productPriceWrapper {
+    margin-left: 1rem;
+}
+
+.ratingSection {
+    display: flex;
+    justify-content: flex-start;
+}

@@ -7,6 +7,12 @@
     background-color: transparent;
     border: none;
     font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.dropdownButtonText {
+    margin-right: 1rem;
 }
 
 .dropdownButton img {

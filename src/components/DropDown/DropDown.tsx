@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from './DropDown.module.css';
+import styles from "./DropDown.module.css";
 import downArrow from "../../assets/svg/down-chevron.svg";
 import upArrow from "../../assets/svg/up-chevron.svg";
 
@@ -14,7 +14,7 @@ function DropDown() {
         className={styles.dropdownButton}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{props.text}</span>
+        <span className={styles.dropdownButtonText}>{props.text}</span>
         <span>
           <img src={isOpen ? upArrow : downArrow} />
         </span>
