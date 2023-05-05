@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Product, addProducts } from "../../features/products/productsSlice";
+import { addProducts } from "../../features/products/productsSlice";
+import { Product, ProductFilters } from "../../features/products/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import ProductCard from "../ProductCard/ProductCard";
@@ -11,12 +12,20 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const baseUrl =
   "https://iaq0pu77z2.execute-api.us-west-1.amazonaws.com/Production/get-all-products?limit=20&amp;isNewWebsite=true";
 
+const filterProducts = (products: Product[], filters: ProductFilters) => {
+  return products.filter((product) => product.website_product);
+};
+
 function ProductsPage() {
-  const products = useSelector((state: RootState) => state.products.products);
+  const { products, filters } = useSelector(
+    (state: RootState) => state.products
+  );
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
+
+  const filteredProducts = filterProducts(products, filters);
 
   const observer = useRef<IntersectionObserver | null>();
   const nextUrl = useRef<string>(baseUrl);
@@ -48,11 +57,7 @@ function ProductsPage() {
       signal: signal,
     })
       .then((res) => {
-        dispatch(
-          addProducts(
-            res.data.data.filter((product: Product) => product.website_product)
-          )
-        );
+        dispatch(addProducts(res.data.data));
         setIsLoading(false);
         nextUrl.current = res.data.next_url;
       })
@@ -75,14 +80,16 @@ function ProductsPage() {
       <h1>Quince</h1>
       <ProductFilterBar />
       <section className={styles.productsContainer}>
-        {products &&
-          products.map((product: Product, index) => {
+        {filteredProducts &&
+          filteredProducts.map((product: Product, index) => {
             return (
               <ProductCard
                 name={product.website_product?.title}
                 imgUrl={product.website_product?.images[0]?.image.url}
                 rating={4.5}
-                ref={index == products.length - 1 ? lastItemRef : undefined}
+                ref={
+                  index == filteredProducts.length - 1 ? lastItemRef : undefined
+                }
                 price="50"
               />
             );
