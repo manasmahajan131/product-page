@@ -15,11 +15,14 @@
     object-fit: cover;
 }
 
+.bottomSectionWrapper{
+    margin-top: 1rem;
+}
+
 .nameAndPriceSection {
     display: flex;
     justify-content: space-between;
     text-align: start;
-    font-size: 1em;
 }
 
 .productPriceWrapper {
@@ -29,4 +32,5 @@
 .ratingSection {
     display: flex;
     justify-content: flex-start;
+    margin-top: 0.5rem;
 }

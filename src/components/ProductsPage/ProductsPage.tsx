@@ -6,6 +6,7 @@ import { RootState } from "../../store";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./ProductsPage.module.scss";
 import ProductFilterBar from "../ProductFilterBar/ProductFilterBar";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const baseUrl =
   "https://iaq0pu77z2.execute-api.us-west-1.amazonaws.com/Production/get-all-products?limit=20&amp;isNewWebsite=true";
@@ -47,7 +48,11 @@ function ProductsPage() {
       signal: signal,
     })
       .then((res) => {
-        dispatch(addProducts(res.data.data));
+        dispatch(
+          addProducts(
+            res.data.data.filter((product: Product) => product.website_product)
+          )
+        );
         setIsLoading(false);
         nextUrl.current = res.data.next_url;
       })
@@ -67,7 +72,8 @@ function ProductsPage() {
 
   return (
     <div>
-      <ProductFilterBar/>
+      <h1>Quince</h1>
+      <ProductFilterBar />
       <section className={styles.productsContainer}>
         {products &&
           products.map((product: Product, index) => {
@@ -81,8 +87,12 @@ function ProductsPage() {
               />
             );
           })}
-        {isLoading && <div>...Loading</div>}
       </section>
+      {isLoading && (
+        <div className={styles.loadingSpinnerContainer}>
+          <LoadingSpinner />
+        </div>
+      )}
     </div>
   );
 }
