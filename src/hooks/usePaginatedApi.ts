@@ -1,26 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import { Product } from "../features/products/types";
+import { useDispatch } from "react-redux";
 import { AnyAction } from "redux";
 
 const usePaginatedApi = (
   pageNo: number,
   baseUrl: string,
-  dispatchFunc: (p: Product[]) => AnyAction
+  dispatchFunc: (p: any) => AnyAction
 ) => {
-  const { products } = useSelector((state: RootState) => state.products);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const nextUrl = useRef<string>(baseUrl);
 
-  const loadItems = async (signal: AbortSignal) => {
+  useEffect(() => {
+    const controller = new AbortController();
     setIsLoading(true);
     axios({
       method: "GET",
       url: nextUrl.current,
-      signal: signal,
+      signal: controller.signal,
     })
       .then((res) => {
         dispatch(dispatchFunc(res.data.data));
@@ -28,20 +26,15 @@ const usePaginatedApi = (
         nextUrl.current = res.data.next_url;
       })
       .catch((err) => {
-        if (signal.aborted) return;
+        if (controller.signal.aborted) return;
         console.error(err);
       });
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    loadItems(controller.signal);
     return () => {
       controller.abort();
     };
-  }, [pageNo]);
+  }, [pageNo, dispatch, dispatchFunc]);
 
-  return { products, isLoading };
+  return { isLoading };
 };
 
 export default usePaginatedApi;

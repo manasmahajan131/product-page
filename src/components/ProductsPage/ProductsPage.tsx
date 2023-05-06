@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Product } from "../../features/products/types";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./ProductsPage.module.scss";
-import ProductFilterBar from "../ProductFilterBar/ProductFilterBar";
+// import ProductFilterBar from "../ProductFilterBar/ProductFilterBar";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import usePaginatedApi from "../../hooks/usePaginatedApi";
 import { addProducts } from "../../features/products/productsSlice";
@@ -34,8 +34,8 @@ function ProductsPage() {
   const [pageNo, setPageNo] = useState(0);
 
   const observer = useRef<IntersectionObserver | null>();
-
-  const { products, isLoading } = usePaginatedApi(pageNo, baseUrl, addProducts);
+  const { products } = useSelector((state: RootState) => state.products);
+  const { isLoading } = usePaginatedApi(pageNo, baseUrl, addProducts);
   // const { filters } = useSelector((state: RootState) => state.products);
   // const filteredProducts = filterProducts(products, filters);
 
@@ -56,7 +56,7 @@ function ProductsPage() {
     if (node) {
       observer.current.observe(node);
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <div>
@@ -71,7 +71,7 @@ function ProductsPage() {
                 name={product.website_product?.title}
                 imgUrl={product.website_product?.images[0]?.image.url}
                 rating={4.5}
-                ref={index == products.length - 1 ? lastItemRef : undefined}
+                ref={index === products.length - 1 ? lastItemRef : undefined}
                 price="50"
               />
             );

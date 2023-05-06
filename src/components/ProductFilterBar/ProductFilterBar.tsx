@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./ProductFilterBar.module.scss";
 import DropDown from "../DropDown/DropDown";
 import Chip from "../Chip/Chip";

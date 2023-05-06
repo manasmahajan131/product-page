@@ -24,7 +24,7 @@ function DropDown({ title, value, checked, options, onChange }: DropDownProps) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.dropdownButtonText}>{title}</span>
-        <img src={isOpen ? upArrow : downArrow} />
+        <img src={isOpen ? upArrow : downArrow} alt="" />
       </button>
       {isOpen && (
         <div className={styles.dropdownMenu}>

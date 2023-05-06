@@ -29,7 +29,7 @@ export const productsSlice = createSlice({
       const ind = updatedFilterSettings[action.payload.key].findIndex(
         (ele) => ele === action.payload.value
       );
-      if (ind == -1) {
+      if (ind === -1) {
         updatedFilterSettings[action.payload.key].push(action.payload.value);
       } else {
         updatedFilterSettings[action.payload.key].splice(ind, 1);
