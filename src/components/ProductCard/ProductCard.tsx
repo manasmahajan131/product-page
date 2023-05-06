@@ -54,7 +54,7 @@ const ProductCard = forwardRef<HTMLInputElement, ProductCardProps>(
             </div>
           </div>
           <div className={styles.ratingSection}>
-            <img src={star} width={14} />
+            <img src={star} width={14} alt=""/>
             <span>{rating}</span>
           </div>
         </div>

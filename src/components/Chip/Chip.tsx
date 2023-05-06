@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import close from "../../assets/svg/close.svg";
 import styles from "./Chip.module.scss";
 
@@ -12,7 +12,7 @@ const Chip = ({
   return (
     <button className={styles.filterChip} onClick={onClick}>
       <span>{text}</span>
-      <img src={close} />
+      <img src={close} alt=""/>
     </button>
   );
 };
