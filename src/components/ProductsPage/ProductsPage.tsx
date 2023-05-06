@@ -1,34 +1,43 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { addProducts } from "../../features/products/productsSlice";
-import { Product, ProductFilters } from "../../features/products/types";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
+import React, { useCallback, useRef, useState } from "react";
+import { Product } from "../../features/products/types";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./ProductsPage.module.scss";
 import ProductFilterBar from "../ProductFilterBar/ProductFilterBar";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import usePaginatedApi from "../../hooks/usePaginatedApi";
+import { addProducts } from "../../features/products/productsSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+
+const filterProducts = (
+  products: Product[],
+  filterSettings: {
+    [key: string]: string[];
+  }
+) => {
+  return products.filter(
+    (product) =>
+      product.website_product &&
+      (!filterSettings.gender.length ||
+        filterSettings.gender.includes(product.website_product.gender)) &&
+      (!filterSettings.color.length ||
+        filterSettings.color.filter((element) =>
+          product.website_product.color_order.includes(element)
+        ).length)
+  );
+};
 
 const baseUrl =
   "https://iaq0pu77z2.execute-api.us-west-1.amazonaws.com/Production/get-all-products?limit=20&amp;isNewWebsite=true";
 
-const filterProducts = (products: Product[], filters: ProductFilters) => {
-  return products.filter((product) => product.website_product);
-};
-
 function ProductsPage() {
-  const { products, filters } = useSelector(
-    (state: RootState) => state.products
-  );
-  const dispatch = useDispatch();
-
-  const [isLoading, setIsLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
 
-  const filteredProducts = filterProducts(products, filters);
-
   const observer = useRef<IntersectionObserver | null>();
-  const nextUrl = useRef<string>(baseUrl);
+
+  const { products, isLoading } = usePaginatedApi(pageNo, baseUrl, addProducts);
+  const { filters } = useSelector((state: RootState) => state.products);
+  const filteredProducts = filterProducts(products, filters);
 
   const lastItemRef = useCallback((node: any) => {
     if (isLoading) {
@@ -49,36 +58,10 @@ function ProductsPage() {
     }
   }, []);
 
-  const loadProducts = async (signal: AbortSignal) => {
-    setIsLoading(true);
-    axios({
-      method: "GET",
-      url: nextUrl.current,
-      signal: signal,
-    })
-      .then((res) => {
-        dispatch(addProducts(res.data.data));
-        setIsLoading(false);
-        nextUrl.current = res.data.next_url;
-      })
-      .catch((err) => {
-        if (signal.aborted) return;
-        console.error(err);
-      });
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    loadProducts(controller.signal);
-    return () => {
-      controller.abort();
-    };
-  }, [pageNo]);
-
   return (
     <div>
       <h1>Quince</h1>
-      <ProductFilterBar />
+      <ProductFilterBar filterSettings={filters} />
       <section className={styles.productsContainer}>
         {filteredProducts &&
           filteredProducts.map((product: Product, index) => {

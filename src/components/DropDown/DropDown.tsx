@@ -2,27 +2,17 @@ import React, { useState } from "react";
 import styles from "./DropDown.module.scss";
 import downArrow from "../../assets/svg/down-chevron.svg";
 import upArrow from "../../assets/svg/up-chevron.svg";
-import { useDispatch } from "react-redux";
-import { updateFilters } from "../../features/products/productsSlice";
-
-export interface ProductFilterOption {
-  title: string;
-  value: string;
-}
 
 interface DropDownProps {
   title: string;
   value: string;
-  options: ProductFilterOption[];
+  checked: string[];
+  options: string[];
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function DropDown({ title, value, options }: DropDownProps) {
-  const dispatch = useDispatch();
+function DropDown({ title, value, checked, options, onChange }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateFilters({ key: e.target.name, value: e.target.value }));
-  };
 
   return (
     <div className={styles.dropdownContainer}>
@@ -31,23 +21,21 @@ function DropDown({ title, value, options }: DropDownProps) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className={styles.dropdownButtonText}>{title}</span>
-        <span>
-          <img src={isOpen ? upArrow : downArrow} />
-        </span>
+        <img src={isOpen ? upArrow : downArrow} />
       </button>
       {isOpen && (
         <div className={styles.dropdownMenu}>
           {options.map((option) => {
             return (
-              <label key={option.value}>
+              <label key={option}>
                 <input
                   type="checkbox"
                   name={value}
-                  value={option.value}
-                  // checked={checkedState[index]}
-                  onChange={handleChange}
+                  value={option}
+                  checked={checked.includes(option)}
+                  onChange={onChange}
                 />
-                <span>{option.title}</span>
+                <span>{option}</span>
               </label>
             );
           })}

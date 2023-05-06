@@ -1,0 +1,12 @@
+.filterChip{
+    display: flex;
+    align-items: center;
+    background-color: lightgray;
+    padding: 0.5rem 1rem;
+    column-gap: 0.5rem;
+    cursor: pointer;
+
+    img{
+        height: 1rem;
+    }
+}

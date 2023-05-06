@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import initialState from "./types";
-import { Product, UpdateFiltersPayload } from "./types";
+import { Product } from "./types";
 
 export const productsSlice = createSlice({
   name: "products",
@@ -10,21 +10,20 @@ export const productsSlice = createSlice({
     addProducts: (state, action: PayloadAction<Product[]>) => {
       state.products = [...state.products, ...action.payload];
     },
-    updateFilters: (state, action: PayloadAction<UpdateFiltersPayload>) => {
-      switch (action.payload.key) {
-        case "gender":
-          const index = state.filters.gender.findIndex(
-            (g) => g === action.payload.value
-          );
-          if (index === -1) {
-            state.filters.gender.push(action.payload.value);
-          } else {
-            state.filters.gender.splice(index, 1);
-          }
-          break;
-        default:
-          break;
+    updateFilters: (
+      state,
+      action: PayloadAction<{ key: string; value: string }>
+    ) => {
+      const updatedFilterSettings = { ...state.filters };
+      const ind = updatedFilterSettings[action.payload.key].findIndex(
+        (ele) => ele === action.payload.value
+      );
+      if (ind == -1) {
+        updatedFilterSettings[action.payload.key].push(action.payload.value);
+      } else {
+        updatedFilterSettings[action.payload.key].splice(ind, 1);
       }
+      state.filters = updatedFilterSettings;
     },
   },
 });

@@ -11,30 +11,23 @@ interface WebsiteProduct {
   images: Array<Image>;
   title: string;
   gender: string;
+  color_order: string[];
 }
 
 export interface Product {
   website_product: WebsiteProduct;
 }
 
-export interface ProductFilters {
-  gender: string[];
-}
-
-interface ProductsState {
+interface ProductsReducerState {
   products: Product[];
-  filters: ProductFilters;
+  filters: { [key: string]: string[] };
 }
 
-export interface UpdateFiltersPayload {
-  key: string;
-  value: string;
-}
-
-const initialState: ProductsState = {
+const initialState: ProductsReducerState = {
   products: [],
   filters: {
     gender: [],
+    color: [],
   },
 };
 
