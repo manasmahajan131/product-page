@@ -1,10 +1,10 @@
-import React, { useCallback, useRef, useState } from "react";
+import React from "react";
 import { Product } from "../../features/products/types";
 import ProductCard from "../ProductCard/ProductCard";
 import styles from "./ProductsPage.module.scss";
 // import ProductFilterBar from "../ProductFilterBar/ProductFilterBar";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import usePaginatedApi from "../../hooks/usePaginatedApi";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { addProducts } from "../../features/products/productsSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -31,32 +31,10 @@ const baseUrl =
   "https://iaq0pu77z2.execute-api.us-west-1.amazonaws.com/Production/get-all-products?limit=20&amp;isNewWebsite=true";
 
 function ProductsPage() {
-  const [pageNo, setPageNo] = useState(0);
-
-  const observer = useRef<IntersectionObserver | null>();
   const { products } = useSelector((state: RootState) => state.products);
-  const { isLoading } = usePaginatedApi(pageNo, baseUrl, addProducts);
+  const { lastItemRef, isLoading } = useInfiniteScroll(baseUrl, addProducts);
   // const { filters } = useSelector((state: RootState) => state.products);
   // const filteredProducts = filterProducts(products, filters);
-
-  const lastItemRef = useCallback((node: any) => {
-    if (isLoading) {
-      return;
-    }
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setPageNo((prev) => prev + 1);
-      }
-    });
-
-    if (node) {
-      observer.current.observe(node);
-    }
-  }, [isLoading]);
 
   return (
     <div>
