@@ -8,7 +8,18 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     addProducts: (state, action: PayloadAction<Product[]>) => {
-      state.products = [...state.products, ...action.payload];
+      const updatedProducts = [...state.products];
+      action.payload.forEach((product) => {
+        if (
+          product.website_product &&
+          updatedProducts.findIndex(
+            (p) => p.website_product.id === product.website_product.id
+          ) === -1
+        ) {
+          updatedProducts.push(product);
+        }
+      });
+      state.products = updatedProducts;
     },
     updateFilters: (
       state,
