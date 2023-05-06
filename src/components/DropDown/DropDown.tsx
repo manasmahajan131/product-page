@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./DropDown.module.scss";
 import downArrow from "../../assets/svg/down-chevron.svg";
 import upArrow from "../../assets/svg/up-chevron.svg";
+import useClickAwayListener from "../../hooks/useClickAwayListener";
 
 interface DropDownProps {
   title: string;
@@ -13,9 +14,11 @@ interface DropDownProps {
 
 function DropDown({ title, value, checked, options, onChange }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  useClickAwayListener(wrapperRef, ()=>setIsOpen(false));
 
   return (
-    <div className={styles.dropdownContainer}>
+    <div className={styles.dropdownContainer} ref={wrapperRef}>
       <button
         className={styles.dropdownButton}
         onClick={() => setIsOpen(!isOpen)}
