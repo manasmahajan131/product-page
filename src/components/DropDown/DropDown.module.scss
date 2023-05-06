@@ -1,3 +1,5 @@
+@use "../../base";
+
 .dropdownContainer {
     position: relative;
     width: fit-content;
@@ -10,22 +12,22 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    img{
+        height: 1.2rem;
+    }
 }
 
 .dropdownButtonText {
     margin-right: 1rem;
 }
 
-.dropdownButton img {
-    height: 1.2rem;
-}
-
 .dropdownMenu {
-    border: .1rem solid #21201f;
+    border: .1rem solid base.$border-dark;
     position: absolute;
     padding: 1rem 2rem 1rem 1rem;
     width: max-content;
-    background-color: white;
+    background-color: base.$bg-primary;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

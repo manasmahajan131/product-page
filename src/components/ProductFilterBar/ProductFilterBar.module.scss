@@ -1,11 +1,13 @@
+@use "../../base";
+
 .filterBarWrapper {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: white;
-    border-top: .1rem solid #d3d2d2;
-    border-bottom: .1rem solid #d3d2d2;
+    background-color: base.$bg-primary;
+    border-top: .1rem solid base.$border-light;
+    border-bottom: .1rem solid base.$border-light;
 }
 
 .filterBar {

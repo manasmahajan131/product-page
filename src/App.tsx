@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 
 function App() {

@@ -1,9 +1,11 @@
+@use "../../base";
+
 .productImageContainer {
     overflow: hidden;
     padding-bottom: 127%;
     height: 0;
     position: relative;
-    background-color: lightgray;
+    background-color: base.$loading-bg;
 
     img {
         position: absolute;
