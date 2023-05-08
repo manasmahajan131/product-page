@@ -47,7 +47,7 @@ const FilterBarMobile = ({
         <div className={styles.filterMenuMobile}>
           <div className={styles.closeButtonWrapper}>
             <button onClick={closeMobileFilters}>
-              <img src={closeIcon}></img>
+              <img src={closeIcon} alt="" />
             </button>
           </div>
           <div className={styles.filterMenuMobileContent}>

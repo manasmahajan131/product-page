@@ -12,7 +12,10 @@ const usePaginatedApi = (
   const dispatch = useDispatch();
   const nextUrl = useRef<string>(baseUrl);
 
+  const hasMore = Boolean(nextUrl.current)
+
   useEffect(() => {
+    if(!nextUrl.current) return;
     const controller = new AbortController();
     setIsLoading(true);
     axios({
@@ -34,7 +37,7 @@ const usePaginatedApi = (
     };
   }, [pageNo, dispatch, dispatchFunc]);
 
-  return { isLoading };
+  return { isLoading, hasMore };
 };
 
 export default usePaginatedApi;

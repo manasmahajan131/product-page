@@ -8,11 +8,14 @@ const useInfiniteScroll = (
 ) => {
   const observer = useRef<IntersectionObserver | null>();
   const [pageNo, setPageNo] = useState(0);
-  const { isLoading } = usePaginatedApi(pageNo, baseUrl, dispatchFunc);
+  const { isLoading, hasMore } = usePaginatedApi(pageNo, baseUrl, dispatchFunc);
 
   const lastItemRef = useCallback(
     (node: any) => {
       if (isLoading) {
+        return;
+      }
+      if (!hasMore) {
         return;
       }
       if (observer.current) {

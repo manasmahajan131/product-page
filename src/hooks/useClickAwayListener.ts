@@ -6,7 +6,7 @@ const useClickAwayListener = (
 ) => {
   const callback = useCallback(() => {
     callbackFunc();
-  }, []);
+  }, [callbackFunc]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
