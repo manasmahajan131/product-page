@@ -4,3 +4,9 @@
   color: base.$font-color;
   text-align: center;
 }
+
+@media screen and (max-width: 960px) {
+  .App {
+    font-size: 14px;
+  }
+}
