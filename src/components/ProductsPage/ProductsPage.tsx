@@ -31,8 +31,10 @@ export const hardCodedFilters = [
     title: "Price",
     options: [
       { name: "Under $20", value: "0-20" },
-      { name: "$20 - $50", value: "20-40" },
-      { name: "$50 - $80", value: "50-80" },
+      { name: "$20 - $50", value: "20-50" },
+      { name: "$50 - $100", value: "50-100" },
+      { name: "$100 - $150", value: "100-150" },
+      { name: "$150 - $200", value: "150-200" },
     ],
   },
   {
