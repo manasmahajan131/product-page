@@ -15,7 +15,7 @@ export interface ProductFilterBarProps {
 }
 
 function ProductFilterBar({ filterSettings }: ProductFilterBarProps) {
-  const [isMobile, isIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const dispatch = useDispatch();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,16 +32,16 @@ function ProductFilterBar({ filterSettings }: ProductFilterBarProps) {
 
   useEffect(() => {
     const mediaWatcher = window.matchMedia("(max-width: 960px)");
-    isIsMobile(mediaWatcher.matches);
+    setIsMobile(mediaWatcher.matches);
 
     function updateIsNarrowScreen(e: MediaQueryListEvent) {
-      isIsMobile(e.matches);
+      setIsMobile(e.matches);
     }
     mediaWatcher.addEventListener("change", updateIsNarrowScreen);
     return () => {
       mediaWatcher.removeEventListener("change", updateIsNarrowScreen);
     };
-  });
+  }, [setIsMobile]);
 
   return (
     <section className={styles.filterBarWrapper}>

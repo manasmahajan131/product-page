@@ -6,7 +6,7 @@ import { ProductFilterBarProps } from "./ProductFilterBar";
 const getFilterNameFromValue = (type: string, value: string) => {
   return (
     hardCodedFilters[
-      hardCodedFilters.findIndex((filter) => filter.type == type)
+      hardCodedFilters.findIndex((filter) => filter.type === type)
     ].options.find((option) => option.value === value)?.name || ""
   );
 };
