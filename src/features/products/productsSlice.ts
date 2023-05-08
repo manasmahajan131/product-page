@@ -36,9 +36,12 @@ export const productsSlice = createSlice({
       }
       state.filters = updatedFilterSettings;
     },
+    clearFilters: (state) => {
+      state.filters = initialState.filters;
+    },
   },
 });
 
-export const { addProducts, updateFilters } = productsSlice.actions;
+export const { addProducts, updateFilters, clearFilters } = productsSlice.actions;
 
 export default productsSlice.reducer;

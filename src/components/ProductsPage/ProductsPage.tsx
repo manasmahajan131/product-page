@@ -81,7 +81,6 @@ function ProductsPage() {
 
   return (
     <div>
-      <h1>Quince</h1>
       <ProductFilterBar filterSettings={filters} />
       <section className={styles.productsContainer}>
         {filteredProducts?.length ? (
@@ -105,7 +104,9 @@ function ProductsPage() {
               );
             })}
             {[...Array(4 - (filteredProducts?.length % 4))].map((e, i) => (
-              <ProductCardSkeleton />
+              <div key={i}>
+                <ProductCardSkeleton />
+              </div>
             ))}
           </>
         ) : (

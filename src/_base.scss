@@ -3,3 +3,17 @@ $loading-bg: #d3d3d3;
 $border-dark: #21201f;
 $border-light: #d3d2d2;
 $bg-primary: #fff;
+
+@mixin button-primary {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+@mixin button-secondary {
+    background-color: $font-color;
+    color: $bg-primary;
+    border: none;
+    cursor: pointer;
+    border-radius: 2rem;
+}

@@ -1,75 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ProductFilterBar.module.scss";
-import DropDown from "../DropDown/DropDown";
-import Chip from "../Chip/Chip";
 import { useDispatch } from "react-redux";
-import { updateFilters } from "../../features/products/productsSlice";
-import filtersIcon from "../../assets/svg/filter.svg";
-import { hardCodedFilters } from "../ProductsPage/ProductsPage";
+import {
+  updateFilters,
+  clearFilters,
+} from "../../features/products/productsSlice";
+import FilterBarDesktop from "./FilterBarDesktop";
+import FilterBarMobile from "./FilterBarMobile";
 
-const getFilterNameFromValue = (type: string, value: string) => {
-  return (
-    hardCodedFilters[
-      hardCodedFilters.findIndex((filter) => filter.type == type)
-    ].options.find((option) => option.value === value)?.name || ""
-  );
-};
-
-interface ProductFilterBarProps {
+export interface ProductFilterBarProps {
   filterSettings: {
     [key: string]: string[];
   };
 }
 
 function ProductFilterBar({ filterSettings }: ProductFilterBarProps) {
+  const [isMobile, isIsMobile] = useState(false);
   const dispatch = useDispatch();
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFilters({ key: e.target.name, value: e.target.value }));
   };
+
   const handleFilterChipClick = (key: string, value: string) => {
     dispatch(updateFilters({ key: key, value: value }));
   };
 
+  const clearAllFilters = () => {
+    dispatch(clearFilters());
+  };
+
+  useEffect(() => {
+    const mediaWatcher = window.matchMedia("(max-width: 960px)");
+    isIsMobile(mediaWatcher.matches);
+
+    function updateIsNarrowScreen(e: MediaQueryListEvent) {
+      isIsMobile(e.matches);
+    }
+    mediaWatcher.addEventListener("change", updateIsNarrowScreen);
+    return () => {
+      mediaWatcher.removeEventListener("change", updateIsNarrowScreen);
+    };
+  });
+
   return (
     <section className={styles.filterBarWrapper}>
-      <div className={styles.filterBar}>
-        {hardCodedFilters.map((filter) => {
-          return (
-            <DropDown
-              title={filter.title}
-              value={filter.type}
-              checked={filterSettings[filter.type]}
-              key={filter.type}
-              options={filter.options}
-              onChange={handleFilterChange}
-            />
-          );
-        })}
-      </div>
-
-      <div className={styles.filterBarMobile}>
-        <button>
-          <img src={filtersIcon} alt="" />
-        </button>
-      </div>
-
-      <div className={styles.filterTags}>
-        {Object.entries(filterSettings).map(([key, value]) => (
-          <>
-            {value.map((option) => {
-              return (
-                <Chip
-                  key={option}
-                  text={getFilterNameFromValue(key, option)}
-                  onClick={(e) => {
-                    handleFilterChipClick(key, option);
-                  }}
-                />
-              );
-            })}
-          </>
-        ))}
-      </div>
+      {isMobile ? (
+        <FilterBarMobile
+          filterSettings={filterSettings}
+          handleFilterChange={handleFilterChange}
+          handleFilterChipClick={handleFilterChipClick}
+          clearFilters={clearAllFilters}
+        />
+      ) : (
+        <FilterBarDesktop
+          filterSettings={filterSettings}
+          handleFilterChange={handleFilterChange}
+          handleFilterChipClick={handleFilterChipClick}
+        />
+      )}
     </section>
   );
 }
