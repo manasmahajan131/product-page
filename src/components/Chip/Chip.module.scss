@@ -1,14 +1,16 @@
 @use '../../base';
 
-.filterChip{
+.filterChip {
     display: flex;
     align-items: center;
     background-color: base.$loading-bg;
+    border: none;
     padding: 0.5rem 1rem;
     column-gap: 0.5rem;
+    margin-bottom: 1rem;
     cursor: pointer;
 
-    img{
+    img {
         height: 1rem;
     }
 }

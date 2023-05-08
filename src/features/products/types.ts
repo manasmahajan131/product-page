@@ -6,12 +6,23 @@ interface Image {
   image: ImageDetails;
 }
 
+interface ProductReviewSummary {
+  averageRating: number;
+}
+
+export interface ProductVariant {
+  price: string;
+}
+
 interface WebsiteProduct {
   id: number;
   images: Array<Image>;
   title: string;
   gender: string;
+  isMadeToOrder: boolean;
   color_order: string[];
+  productReviewSummary: ProductReviewSummary;
+  variants: ProductVariant[];
 }
 
 export interface Product {
@@ -27,7 +38,8 @@ const initialState: ProductsReducerState = {
   products: [],
   filters: {
     gender: [],
-    color: [],
+    price: [],
+    isMadeToOrder: [],
   },
 };
 

@@ -4,17 +4,16 @@ import DropDown from "../DropDown/DropDown";
 import Chip from "../Chip/Chip";
 import { useDispatch } from "react-redux";
 import { updateFilters } from "../../features/products/productsSlice";
+import filtersIcon from "../../assets/svg/filter.svg";
+import { hardCodedFilters } from "../ProductsPage/ProductsPage";
 
-const hardCodedFilters = [
-  {
-    value: "gender",
-    options: ["male", "female"],
-  },
-  {
-    value: "color",
-    options: ["Red", "Green", "Blue", "Black"],
-  },
-];
+const getFilterNameFromValue = (type: string, value: string) => {
+  return (
+    hardCodedFilters[
+      hardCodedFilters.findIndex((filter) => filter.type == type)
+    ].options.find((option) => option.value === value)?.name || ""
+  );
+};
 
 interface ProductFilterBarProps {
   filterSettings: {
@@ -37,15 +36,21 @@ function ProductFilterBar({ filterSettings }: ProductFilterBarProps) {
         {hardCodedFilters.map((filter) => {
           return (
             <DropDown
-              title={filter.value}
-              value={filter.value}
-              checked={filterSettings[filter.value]}
-              key={filter.value}
+              title={filter.title}
+              value={filter.type}
+              checked={filterSettings[filter.type]}
+              key={filter.type}
               options={filter.options}
               onChange={handleFilterChange}
             />
           );
         })}
+      </div>
+
+      <div className={styles.filterBarMobile}>
+        <button>
+          <img src={filtersIcon} alt="" />
+        </button>
       </div>
 
       <div className={styles.filterTags}>
@@ -55,7 +60,7 @@ function ProductFilterBar({ filterSettings }: ProductFilterBarProps) {
               return (
                 <Chip
                   key={option}
-                  text={option}
+                  text={getFilterNameFromValue(key, option)}
                   onClick={(e) => {
                     handleFilterChipClick(key, option);
                   }}
