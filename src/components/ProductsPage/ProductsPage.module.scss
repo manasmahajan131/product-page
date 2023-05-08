@@ -7,10 +7,11 @@
     margin: auto;
 }
 
-.loadingSpinnerContainer{
+.loadingSpinnerContainer {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    height: 200px;
+    align-items: center;
 }
 
 @media screen and (max-width: 960px) {

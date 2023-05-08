@@ -6,14 +6,12 @@
 }
 
 .dropdownButton {
-    background-color: transparent;
-    border: none;
+    @include base.button-primary;
     font-size: 1.2rem;
     display: flex;
     align-items: center;
-    cursor: pointer;
 
-    img{
+    img {
         height: 1.2rem;
     }
 }
@@ -33,4 +31,8 @@
     align-items: flex-start;
     row-gap: 1rem;
     z-index: 2;
+
+    label {
+        cursor: pointer;
+    }
 }
